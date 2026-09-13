@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Capability & Project Ceiling Evaluator</title>
+  <!-- Tailwind CSS & Marked for Markdown -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    .markdown-body h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.25rem; }
+    .markdown-body h2 { font-size: 1.25rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
+    .markdown-body h3 { font-size: 1.1rem; font-weight: 600; margin-top: 0.75rem; margin-bottom: 0.25rem; }
+    .markdown-body p { margin-bottom: 0.75rem; line-height: 1.6; }
+    .markdown-body ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 0.75rem; }
+    .markdown-body pre { background: #1f2937; color: #f9fafb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
+    .markdown-body code { background: #f3f4f6; color: #ef4444; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.875em; }
+    .markdown-body pre code { background: transparent; color: inherit; padding: 0; }
+    .markdown-body blockquote { border-left: 4px solid #3b82f6; padding-left: 1rem; color: #4b5563; margin-bottom: 0.75rem; font-style: italic; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+  <!-- Top Navigation Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-md">
+          🎓
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-slate-900 leading-tight">Student Capability & Project Ceiling Evaluator</h1>
+          <p class="text-xs text-slate-500">Test what projects students can build using ONLY your web curriculum</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span id="statusIndicator" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+          ● Ready (Mock / Offline Mode)
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- Left Column: Source Material Management (4 cols) -->
+      <section class="lg:col-span-4 space-y-5">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+          <h2 class="text-base font-semibold text-slate-900 mb-2 flex items-center gap-2">
+            <span>🌐</span> Ingest Web Details / Content
+          </h2>
+          <p class="text-xs text-slate-500 mb-4">Add the only source material the student is allowed to know.</p>
+
+          <!-- Input Mode Tabs -->
+          <div class="flex border-b border-slate-200 mb-4 text-xs font-medium">
+            <button id="tabUrlBtn" onclick="switchSourceTab('url')" class="py-1.5 px-3 border-b-2 border-indigo-600 text-indigo-600">Web URL</button>
+            <button id="tabTextBtn" onclick="switchSourceTab('text')" class="py-1.5 px-3 text-slate-500 hover:text-slate-700">Paste Text</button>
+          </div>
+
+          <!-- URL Form -->
+          <div id="urlForm" class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Web Page URL</label>
+              <input id="inputUrl" type="url" placeholder="https://your-learning-app.com/lesson-1" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            </div>
+            <button onclick="ingestUrl()" id="btnIngestUrl" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2 rounded-lg transition">
+              Fetch & Ingest Page
+            </button>
+          </div>
+
+          <!-- Raw Text Form -->
+          <div id="textForm" class="space-y-3 hidden">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Lesson Title</label>
+              <input id="inputTitle" type="text" placeholder="Lesson 2: State & Storage" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Lesson Content (Markdown/Text)</label>
+              <textarea id="inputText" rows="5" placeholder="Paste what you teach here..." class="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+            </div>
+            <button onclick="ingestText()" id="btnIngestText" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2 rounded-lg transition">
+              Save Lesson Content
+            </button>
+          </div>
+        </div>
+
+        <!-- Ingested Sources List -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-semibold text-slate-800 flex items-center gap-1.5">
+              <span>📚</span> Active Sources
+              <span id="sourceCount" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-normal">0</span>
+            </h3>
+            <button onclick="loadSources()" class="text-xs text-indigo-600 hover:underline">Refresh</button>
+          </div>
+          <div id="sourcesList" class="space-y-2 max-h-60 overflow-y-auto pr-1 text-xs">
+            <p class="text-slate-400 italic">Loading sources...</p>
+          </div>
+        </div>
+
+        <!-- Settings / API Configuration -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+          <h3 class="text-sm font-semibold text-slate-800 mb-2 flex items-center gap-1.5">
+            <span>⚙️</span> Model Settings
+          </h3>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs text-slate-600 mb-1">Gemini API Key (Optional)</label>
+              <input id="inputApiKey" type="password" placeholder="AIzaSy... (Leave empty for Offline Mock)" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            </div>
+            <button onclick="saveApiKey()" class="w-full bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium py-1.5 rounded-lg transition">
+              Save Settings
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Evaluation Dashboard (8 cols) -->
+      <section class="lg:col-span-8 space-y-5">
+        <!-- Action Bar -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+          <h2 class="text-base font-semibold text-slate-900 mb-1">Run Student Capability Tests</h2>
+          <p class="text-xs text-slate-500 mb-4">Measure the project threshold of your curriculum with strict closed-book evaluation.</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Test 1: Ceiling Probe -->
+            <div class="border border-indigo-100 bg-indigo-50/50 rounded-xl p-4 flex flex-col justify-between">
+              <div>
+                <span class="inline-block px-2 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] font-bold uppercase rounded mb-2">Curriculum Ceiling</span>
+                <h3 class="text-sm font-bold text-slate-800 mb-1">Probe Highest Project Tier</h3>
+                <p class="text-xs text-slate-600 mb-3 leading-relaxed">
+                  Evaluates the absolute maximum project complexity a student can build without any outside help.
+                </p>
+              </div>
+              <button onclick="runCeilingProbe()" id="btnCeiling" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2 rounded-lg transition shadow-sm">
+                Run Ceiling Probe 🚀
+              </button>
+            </div>
+
+            <!-- Test 2: Project Challenge -->
+            <div class="border border-emerald-100 bg-emerald-50/50 rounded-xl p-4 flex flex-col justify-between">
+              <div>
+                <span class="inline-block px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase rounded mb-2">Target Challenge</span>
+                <h3 class="text-sm font-bold text-slate-800 mb-1">Test Specific Project Idea</h3>
+                <input id="inputProjectName" type="text" placeholder="e.g. Weather App, To-Do List" class="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded mb-2 bg-white" value="Interactive Note-Taking App" />
+              </div>
+              <button onclick="runProjectChallenge()" id="btnChallenge" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold py-2 rounded-lg transition shadow-sm">
+                Challenge Student 🎯
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Evaluation Results Display -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 min-h-[400px]">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
+            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <span>📊</span> Student Outcome & Gap Report
+            </h3>
+            <span id="reportBadge" class="text-xs px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 font-medium">No test run yet</span>
+          </div>
+
+          <div id="loader" class="hidden py-16 text-center">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-indigo-600 border-t-transparent"></div>
+            <p class="text-sm font-medium text-slate-600 mt-3">Simulating student thinking with closed-book constraints...</p>
+          </div>
+
+          <div id="reportContent" class="markdown-body text-slate-700 text-sm">
+            <div class="py-12 text-center text-slate-400">
+              <p class="text-3xl mb-2">💡</p>
+              <p class="font-medium text-slate-500">Click "Run Ceiling Probe" or "Challenge Student" above to test your curriculum.</p>
+              <p class="text-xs mt-1 text-slate-400">The student will assess what projects it can build using only your active sources.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    function switchSourceTab(mode) {
+      const isUrl = mode === 'url';
+      document.getElementById('urlForm').classList.toggle('hidden', !isUrl);
+      document.getElementById('textForm').classList.toggle('hidden', isUrl);
+      document.getElementById('tabUrlBtn').className = isUrl 
+        ? 'py-1.5 px-3 border-b-2 border-indigo-600 text-indigo-600 font-medium' 
+        : 'py-1.5 px-3 text-slate-500 hover:text-slate-700 font-medium';
+      document.getElementById('tabTextBtn').className = !isUrl 
+        ? 'py-1.5 px-3 border-b-2 border-indigo-600 text-indigo-600 font-medium' 
+        : 'py-1.5 px-3 text-slate-500 hover:text-slate-700 font-medium';
+    }
+
+    async function loadSources() {
+      try {
+        const res = await fetch('/api/sources');
+        const data = await res.json();
+        const listEl = document.getElementById('sourcesList');
+        document.getElementById('sourceCount').innerText = data.sources.length;
+
+        if (data.sources.length === 0) {
+          listEl.innerHTML = '<p class="text-slate-400 italic">No curriculum sources added yet.</p>';
+          return;
+        }
+
+        listEl.innerHTML = data.sources.map(s => `
+          <div class="border border-slate-200 rounded-lg p-2.5 bg-slate-50 hover:bg-slate-100 transition flex items-center justify-between">
+            <div class="truncate mr-2">
+              <p class="font-semibold text-slate-800 truncate">${s.title}</p>
+              <p class="text-[10px] text-slate-500">${s.filename} (${s.size_bytes} bytes)</p>
+            </div>
+            <button onclick="deleteSource('${s.filename}')" class="text-rose-500 hover:text-rose-700 text-xs px-1.5 py-1">✕</button>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error('Error loading sources:', err);
+      }
+    }
+
+    async function ingestUrl() {
+      const url = document.getElementById('inputUrl').value.trim();
+      if (!url) return alert('Please enter a valid URL');
+      const btn = document.getElementById('btnIngestUrl');
+      btn.innerText = 'Fetching...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/sources/url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert('Web page ingested successfully!');
+          document.getElementById('inputUrl').value = '';
+          loadSources();
+        } else {
+          alert('Error: ' + data.error);
+        }
+      } catch (err) {
+        alert('Network error while ingesting URL');
+      } finally {
+        btn.innerText = 'Fetch & Ingest Page';
+        btn.disabled = false;
+      }
+    }
+
+    async function ingestText() {
+      const title = document.getElementById('inputTitle').value.trim();
+      const content = document.getElementById('inputText').value.trim();
+      if (!title || !content) return alert('Please enter both title and content');
+      const btn = document.getElementById('btnIngestText');
+      btn.innerText = 'Saving...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/sources/text', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, content })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert('Lesson saved!');
+          document.getElementById('inputTitle').value = '';
+          document.getElementById('inputText').value = '';
+          loadSources();
+        } else {
+          alert('Error: ' + data.error);
+        }
+      } catch (err) {
+        alert('Network error while saving lesson');
+      } finally {
+        btn.innerText = 'Save Lesson Content';
+        btn.disabled = false;
+      }
+    }
+
+    async function deleteSource(filename) {
+      if (!confirm(`Delete ${filename}?`)) return;
+      await fetch(`/api/sources/${encodeURIComponent(filename)}`, { method: 'DELETE' });
+      loadSources();
+    }
+
+    async function runCeilingProbe() {
+      showLoading(true);
+      document.getElementById('reportBadge').innerText = 'Probing Ceiling...';
+      try {
+        const res = await fetch('/api/evaluate/ceiling', { method: 'POST' });
+        const data = await res.json();
+        showLoading(false);
+        if (data.success) {
+          document.getElementById('reportContent').innerHTML = marked.parse(data.report);
+          document.getElementById('reportBadge').innerText = 'Ceiling Evaluated';
+        } else {
+          document.getElementById('reportContent').innerHTML = `<p class="text-rose-500 font-medium">${data.error}</p>`;
+        }
+      } catch (err) {
+        showLoading(false);
+        document.getElementById('reportContent').innerHTML = '<p class="text-rose-500">Evaluation request failed.</p>';
+      }
+    }
+
+    async function runProjectChallenge() {
+      const projectName = document.getElementById('inputProjectName').value.trim();
+      if (!projectName) return alert('Please enter a project name');
+      showLoading(true);
+      document.getElementById('reportBadge').innerText = `Challenging: ${projectName}`;
+      try {
+        const res = await fetch('/api/evaluate/challenge', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ project_name: projectName })
+        });
+        const data = await res.json();
+        showLoading(false);
+        if (data.success) {
+          document.getElementById('reportContent').innerHTML = marked.parse(data.report);
+          document.getElementById('reportBadge').innerText = `Challenge Complete: ${projectName}`;
+        } else {
+          document.getElementById('reportContent').innerHTML = `<p class="text-rose-500 font-medium">${data.error}</p>`;
+        }
+      } catch (err) {
+        showLoading(false);
+        document.getElementById('reportContent').innerHTML = '<p class="text-rose-500">Challenge request failed.</p>';
+      }
+    }
+
+    async function saveApiKey() {
+      const apiKey = document.getElementById('inputApiKey').value.trim();
+      const res = await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ api_key: apiKey })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert('Settings updated!');
+        document.getElementById('statusIndicator').innerText = apiKey ? '● Live Model Connected' : '● Ready (Mock / Offline Mode)';
+        document.getElementById('statusIndicator').className = apiKey 
+          ? 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800'
+          : 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800';
+      }
+    }
+
+    function showLoading(isLoading) {
+      document.getElementById('loader').classList.toggle('hidden', !isLoading);
+      document.getElementById('reportContent').classList.toggle('hidden', isLoading);
+    }
+
+    // Initialize
+    loadSources();
+  </script>
+</body>
+</html>
