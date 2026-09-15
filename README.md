@@ -1,11 +1,36 @@
-# 🎓 Student Project Capability & Curriculum Ceiling Evaluator
+# 🎓 Student Capability & Project Ceiling Evaluator — CodeHero Universe (1717)
 
-A test harness for educational platforms and learning apps. It treats an AI model as a **strictly closed-book student** whose entire world of technical knowledge is restricted to your website's content.
+A closed-book evaluation harness for testing educational platforms and learning apps. It treats an AI model as a **strictly grounded student** whose entire universe of technical knowledge is restricted to your website's content: [**CodeHero Universe (1717)**](https://kalavalajohnlinnu-ui.github.io/codehero-1717/).
 
-With this tool, you can:
-1. **Find your Curriculum Ceiling**: Discover the absolute highest project tier (Tier 1–4) a student can build with 100% self-sufficiency.
-2. **Challenge Specific Projects**: Test whether a student can build a specific project (e.g. "To-Do List", "Weather App", "E-Commerce Cart").
-3. **Detect Knowledge Blockers**: Pinpoint the exact missing concepts preventing students from building higher-tier projects.
+---
+
+## 🌟 Connected Source Curriculum
+- **Source Website**: [https://kalavalajohnlinnu-ui.github.io/codehero-1717/](https://kalavalajohnlinnu-ui.github.io/codehero-1717/)
+- **Total Ingested Modules**: 141 modules
+- **Total Ingested Lessons**: 539 lessons
+- **Built-in Projects**: 15 projects
+- **Language Realms**: 🐍 Python (25 modules), ⚡ JavaScript (25 modules), 🎨 HTML & CSS (22 modules), 🗝️ SQL (20 modules), ☕ Java (25 modules), 🦀 Rust (24 modules)
+- **Database**: SQLite 3 with Full-Text Search (`lessons_fts` FTS5) in `data/curriculum_knowledge.db`
+
+---
+
+## 🚀 Key Capabilities
+
+1. **Interactive Problem Solver & Builder (Strictly Grounded)**:
+   - Tell the student to solve any problem or build a new feature.
+   - Automatically searches the 539 indexed lessons in SQLite, quotes the exact modules used, and writes clean code strictly adhering to your curriculum.
+   - **Active Guardrails**: If you request external libraries (e.g. `pandas`, `react`, `flask`, `docker`), the student **explicitly refuses** and solves the task using pure native syntax from your website instead.
+
+2. **Curriculum Ceiling Probe**:
+   - Discovers the absolute highest project tier achievable across each language realm (Tier 1–4).
+   - Identifies the exact "Missing Bridges" needed to reach production full-stack capability.
+
+3. **Target Project Challenge**:
+   - Tests whether a student can build a specific project (e.g., *"E-Commerce Cart"* or *"Interactive Note App"*) and logs knowledge blockers.
+
+4. **100% Offline Execution**:
+   - **Mode A (Built-in)**: Zero setup, runs completely offline right inside Python using the local SQLite knowledge engine.
+   - **Mode B (Local AI)**: Seamlessly connects to local runners like [Ollama](https://ollama.com) (`http://localhost:11434`) for offline generative AI on your CPU/GPU.
 
 ---
 
@@ -15,75 +40,57 @@ With this tool, you can:
 student-evaluator/
 │
 ├── data/
-│   └── sources/             <-- Put your web content or lessons here (*.md, *.txt)
-│       └── sample_lesson.md <-- Included sample lesson placeholder
+│   ├── curriculum_knowledge.db  <-- SQLite database with FTS5 index (539 lessons, 15 projects)
+│   └── sources/                 <-- 141 Markdown curriculum module files
 │
 ├── core/
-│   ├── ingest.py            <-- Web scraper & text ingestion manager
-│   ├── sandbox.py           <-- Strict closed-book prompt engineering
-│   ├── llm_client.py        <-- Gemini / OpenAI caller + Offline Mock engine
-│   └── evaluator.py         <-- Ceiling probe & project challenge runner
+│   ├── indexer.py               <-- SQLite FTS5 database builder & search engine
+│   ├── resolver.py              <-- Semantic knowledge connector & guardrails
+│   ├── sandbox.py               <-- Closed-book prompt constraints (zero outside knowledge)
+│   ├── llm_client.py            <-- Offline simulator + Ollama/Gemini connectors
+│   ├── evaluator.py             <-- Ceiling probe & project challenge runner
+│   └── ingest.py                <-- Web URL & text ingestion manager
+│
+├── scripts/
+│   ├── ingest_codehero.py       <-- Ingests all 6 languages from codehero-1717
+│   └── evaluate_codehero.py     <-- Curriculum analysis helper
 │
 ├── static/
-│   └── index.html           <-- Modern interactive web dashboard
+│   └── index.html               <-- Interactive web dashboard with Problem Solver
 │
-├── app.py                   <-- FastAPI web application
-├── run.py                   <-- One-click launcher (`python run.py`)
-├── cli.py                   <-- Terminal CLI runner (`python cli.py`)
-├── .env.example             <-- API keys configuration template
+├── app.py                       <-- FastAPI backend & REST API
+├── cli.py                       <-- Terminal CLI runner with --solve, --ceiling, --challenge
+├── run.py                       <-- One-click dashboard launcher
 └── README.md
 ```
 
 ---
 
-## 🚀 Quick Start
+## 💻 How to Use
 
-### 1. Launch the Web Dashboard
+### 1. Web Dashboard (Visual)
 ```bash
 python run.py
 ```
-Open [http://localhost:8000](http://localhost:8000) in your browser.
+Open [http://localhost:8000](http://localhost:8000) in your browser:
+- Use the **Interactive Problem Solver & Builder** to test any task.
+- Run the **Curriculum Ceiling Probe** to inspect project tiers.
+- Switch between **Internal Offline**, **Local Ollama**, or **Gemini Cloud** in Settings.
 
-### 2. Ingest Your Website Details
-In the dashboard (or via CLI):
-- **Web URL**: Enter your live website URL (e.g., `https://your-learning-app.com/lesson-1`) and click **Fetch & Ingest Page**.
-- **Paste Text**: Paste raw lesson text or tutorial markdown directly.
-
-### 3. Run Evaluations
-- **Run Ceiling Probe 🚀**: Discovers the highest achievable project tier and lists the top 3 missing concepts.
-- **Challenge Student 🎯**: Enter a project name (e.g., *"Interactive Quiz App"*) to see how the student attempts it and where they get blocked.
-
----
-
-## 💻 CLI Commands
-
-You can also run evaluations directly in your terminal:
-
+### 2. Terminal CLI (PowerShell / Bash)
 ```bash
-# List all active curriculum sources
-python cli.py --list
+# Ask the student to solve a Python problem:
+python cli.py --solve "Build a student grade tracker that saves data to a JSON file" --lang python
 
-# Ingest a live web page
-python cli.py --add-url https://example.com/tutorial
+# Ask the student to solve an SQL problem:
+python cli.py --solve "Write a query to group records and calculate average score" --lang sql
 
-# Probe curriculum ceiling
+# Ask the student to build an interactive web component:
+python cli.py --solve "Create an interactive card that saves user notes to local storage" --lang html
+
+# Probe curriculum ceiling:
 python cli.py --ceiling
 
-# Challenge a specific project
-python cli.py --challenge "E-Commerce Shopping Cart"
-
-# Run self-test
-python cli.py --test
+# Challenge a specific project:
+python cli.py --challenge "Shopping Cart App"
 ```
-
----
-
-## 🔑 LLM API Configuration (Optional)
-The system includes an **Offline Mock Simulation Engine** that works out of the box with zero setup.
-
-To connect live models:
-1. Get a free Gemini API key from [Google AI Studio](https://aistudio.google.com/).
-2. Either enter it in the web dashboard under **Settings**, or set it in your environment:
-   ```bash
-   set GEMINI_API_KEY=your_key_here
-   ```
