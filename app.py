@@ -31,10 +31,15 @@ class ChallengeRequest(BaseModel):
     project_name: str
     project_description: Optional[str] = ""
 
+class SolveProblemRequest(BaseModel):
+    problem_statement: str
+    target_language: Optional[str] = "auto"
+
 class SettingsRequest(BaseModel):
     api_key: Optional[str] = None
-    provider: Optional[str] = "gemini"
+    provider: Optional[str] = "mock"
     model: Optional[str] = None
+    endpoint: Optional[str] = None
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -90,16 +95,28 @@ async def evaluate_challenge(req: ChallengeRequest):
     return res
 
 
+@app.post("/api/evaluate/solve")
+async def evaluate_solve(req: SolveProblemRequest):
+    res = evaluator.solve_problem(req.problem_statement, req.target_language)
+    return res
+
+
 @app.post("/api/settings")
 async def update_settings(req: SettingsRequest):
     global llm_cli, evaluator
-    if req.api_key:
-        os.environ["GEMINI_API_KEY"] = req.api_key
-        llm_cli = LLMClient(api_key=req.api_key, provider="gemini")
-    else:
-        llm_cli = LLMClient(provider="mock")
+    llm_cli = LLMClient(
+        api_key=req.api_key,
+        provider=req.provider or "mock",
+        model=req.model,
+        endpoint=req.endpoint
+    )
     evaluator = StudentProjectEvaluator(ingest_manager=ingest_mgr, llm_client=llm_cli)
-    return {"success": True, "provider": llm_cli.provider, "model": llm_cli.model}
+    return {
+        "success": True,
+        "provider": llm_cli.provider,
+        "model": llm_cli.model,
+        "endpoint": llm_cli.endpoint
+    }
 
 
 if __name__ == "__main__":

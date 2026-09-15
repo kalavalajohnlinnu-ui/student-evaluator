@@ -69,3 +69,31 @@ Write whatever code you CAN genuinely produce using only the taught syntax. Leav
 ### 5. Curriculum Upgrade Recommendation
 What specific lessons or topics should the web app author add to enable students to complete this project?
 """
+
+PROBLEM_SOLVER_PROMPT = """
+STUDENT PROBLEM-SOLVING TASK:
+"{problem_statement}"
+
+LANGUAGE PREFERENCE:
+"{target_language}"
+
+INSTRUCTIONS:
+You are a student who ONLY knows what is taught in the CURRICULUM.
+Solve the problem or build the requested feature using ONLY concepts, libraries, syntax, and functions that you learned in the curriculum.
+
+OUTPUT FORMAT:
+### 1. Curriculum Reference Check
+- Which module(s) and lesson(s) from the website teach the concepts needed for this?
+- Cite the module title (e.g. `[Python Module 18: File I/O]` or `[JavaScript Module 19: LocalStorage]`).
+
+### 2. Can You Solve This 100% With What You Learned?
+- [YES / PARTIALLY / NO]
+- If NO or PARTIALLY: Explain what forbidden/un-taught concept was requested (e.g., "The user asked for pandas or express, but CodeHero only taught native lists and dicts. I will solve it with native loops and file I/O instead.").
+
+### 3. Strictly Grounded Solution Code
+Provide clean, functional code adhering strictly to the taught syntax. Do NOT import un-taught libraries. Include comments referencing the module used.
+
+### 4. Step-by-Step Explanation as a Student
+Explain how the code works using only the terminology and concepts taught on your website.
+"""
+

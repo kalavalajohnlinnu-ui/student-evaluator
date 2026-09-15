@@ -3,7 +3,8 @@ from core.ingest import IngestionManager
 from core.sandbox import (
     STUDENT_SYSTEM_PROMPT,
     CEILING_PROBE_PROMPT,
-    PROJECT_CHALLENGE_PROMPT
+    PROJECT_CHALLENGE_PROMPT,
+    PROBLEM_SOLVER_PROMPT
 )
 from core.llm_client import LLMClient
 
@@ -57,3 +58,28 @@ class StudentProjectEvaluator:
             "project_name": project_name,
             "report": report
         }
+
+    def solve_problem(self, problem_statement: str, target_language: str = "auto") -> Dict[str, Any]:
+        """Directs the student to solve a problem or build a feature using ONLY taught concepts."""
+        curriculum = self.ingest.get_combined_curriculum()
+        if not curriculum.strip():
+            return {
+                "success": False,
+                "error": "No curriculum sources found! Please add web URLs or lesson text first.",
+                "report": ""
+            }
+
+        system_instruction = STUDENT_SYSTEM_PROMPT.format(curriculum=curriculum)
+        user_prompt = PROBLEM_SOLVER_PROMPT.format(
+            problem_statement=problem_statement,
+            target_language=target_language
+        )
+
+        report = self.llm.generate(system_instruction, user_prompt)
+        return {
+            "success": True,
+            "problem": problem_statement,
+            "target_language": target_language,
+            "report": report
+        }
+

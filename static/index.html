@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Capability & Project Ceiling Evaluator</title>
+  <title>Student Capability & Project Ceiling Evaluator — CodeHero</title>
   <!-- Tailwind CSS & Marked for Markdown -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -29,12 +29,12 @@
         </div>
         <div>
           <h1 class="text-lg font-bold text-slate-900 leading-tight">Student Capability & Project Ceiling Evaluator</h1>
-          <p class="text-xs text-slate-500">Test what projects students can build using ONLY your web curriculum</p>
+          <p class="text-xs text-slate-500">Source: <a href="https://kalavalajohnlinnu-ui.github.io/codehero-1717/" target="_blank" class="text-indigo-600 underline font-medium">CodeHero Universe (1717)</a></p>
         </div>
       </div>
       <div class="flex items-center space-x-2">
         <span id="statusIndicator" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
-          ● Ready (Mock / Offline Mode)
+          ● 100% Offline Mode Active
         </span>
       </div>
     </div>
@@ -46,71 +46,65 @@
 
       <!-- Left Column: Source Material Management (4 cols) -->
       <section class="lg:col-span-4 space-y-5">
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h2 class="text-base font-semibold text-slate-900 mb-2 flex items-center gap-2">
-            <span>🌐</span> Ingest Web Details / Content
-          </h2>
-          <p class="text-xs text-slate-500 mb-4">Add the only source material the student is allowed to know.</p>
-
-          <!-- Input Mode Tabs -->
-          <div class="flex border-b border-slate-200 mb-4 text-xs font-medium">
-            <button id="tabUrlBtn" onclick="switchSourceTab('url')" class="py-1.5 px-3 border-b-2 border-indigo-600 text-indigo-600">Web URL</button>
-            <button id="tabTextBtn" onclick="switchSourceTab('text')" class="py-1.5 px-3 text-slate-500 hover:text-slate-700">Paste Text</button>
-          </div>
-
-          <!-- URL Form -->
-          <div id="urlForm" class="space-y-3">
-            <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">Web Page URL</label>
-              <input id="inputUrl" type="url" placeholder="https://your-learning-app.com/lesson-1" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-            </div>
-            <button onclick="ingestUrl()" id="btnIngestUrl" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2 rounded-lg transition">
-              Fetch & Ingest Page
-            </button>
-          </div>
-
-          <!-- Raw Text Form -->
-          <div id="textForm" class="space-y-3 hidden">
-            <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">Lesson Title</label>
-              <input id="inputTitle" type="text" placeholder="Lesson 2: State & Storage" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">Lesson Content (Markdown/Text)</label>
-              <textarea id="inputText" rows="5" placeholder="Paste what you teach here..." class="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-            </div>
-            <button onclick="ingestText()" id="btnIngestText" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2 rounded-lg transition">
-              Save Lesson Content
-            </button>
-          </div>
-        </div>
-
         <!-- Ingested Sources List -->
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-sm font-semibold text-slate-800 flex items-center gap-1.5">
-              <span>📚</span> Active Sources
-              <span id="sourceCount" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-normal">0</span>
+              <span>📚</span> Ingested Curriculum Sources
+              <span id="sourceCount" class="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-bold">141</span>
             </h3>
             <button onclick="loadSources()" class="text-xs text-indigo-600 hover:underline">Refresh</button>
           </div>
-          <div id="sourcesList" class="space-y-2 max-h-60 overflow-y-auto pr-1 text-xs">
+          <p class="text-xs text-slate-500 mb-2">Contains 141 modules & 539 lessons across Python, JS, HTML/CSS, SQL, Java, and Rust.</p>
+          <div id="sourcesList" class="space-y-1.5 max-h-56 overflow-y-auto pr-1 text-xs">
             <p class="text-slate-400 italic">Loading sources...</p>
           </div>
         </div>
 
-        <!-- Settings / API Configuration -->
+        <!-- Offline / Model Settings -->
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
           <h3 class="text-sm font-semibold text-slate-800 mb-2 flex items-center gap-1.5">
-            <span>⚙️</span> Model Settings
+            <span>⚙️</span> Offline & Model Settings
           </h3>
-          <div class="space-y-3">
+          <p class="text-xs text-slate-500 mb-3">Run fully offline on your PC without internet or connect a local LLM.</p>
+          
+          <div class="space-y-3 text-xs">
             <div>
-              <label class="block text-xs text-slate-600 mb-1">Gemini API Key (Optional)</label>
-              <input id="inputApiKey" type="password" placeholder="AIzaSy... (Leave empty for Offline Mock)" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <label class="block font-semibold text-slate-700 mb-1">Execution Mode</label>
+              <select id="selectProvider" onchange="updateProviderFields()" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="mock">🟢 Internal Offline Simulator (Zero Setup)</option>
+                <option value="ollama">🦙 Local Ollama Runner (Offline Local AI)</option>
+                <option value="gemini">☁️ Google Gemini Cloud API (Optional)</option>
+              </select>
             </div>
-            <button onclick="saveApiKey()" class="w-full bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium py-1.5 rounded-lg transition">
-              Save Settings
+
+            <div id="ollamaConfig" class="hidden space-y-2">
+              <label class="block text-slate-600">Ollama Endpoint</label>
+              <input id="inputEndpoint" type="text" value="http://localhost:11434" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg" />
+              <label class="block text-slate-600">Model Name</label>
+              <input id="inputOllamaModel" type="text" value="qwen2.5-coder:7b" placeholder="e.g. qwen2.5-coder:7b or llama3.2" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg" />
+            </div>
+
+            <div id="geminiConfig" class="hidden space-y-2">
+              <label class="block text-slate-600">Gemini API Key</label>
+              <input id="inputApiKey" type="password" placeholder="AIzaSy..." class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg" />
+            </div>
+
+            <button onclick="saveSettings()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-2 rounded-lg transition">
+              Apply Settings
+            </button>
+          </div>
+        </div>
+
+        <!-- Ingest Web URL Tab -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+          <h2 class="text-sm font-semibold text-slate-800 mb-1 flex items-center gap-1.5">
+            <span>🌐</span> Ingest New Web Page
+          </h2>
+          <div class="space-y-2.5 mt-3 text-xs">
+            <input id="inputUrl" type="url" placeholder="https://example.com/new-tutorial" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg" />
+            <button onclick="ingestUrl()" id="btnIngestUrl" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-1.5 rounded-lg transition">
+              Fetch & Ingest
             </button>
           </div>
         </div>
@@ -118,59 +112,91 @@
 
       <!-- Right Column: Evaluation Dashboard (8 cols) -->
       <section class="lg:col-span-8 space-y-5">
-        <!-- Action Bar -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-          <h2 class="text-base font-semibold text-slate-900 mb-1">Run Student Capability Tests</h2>
-          <p class="text-xs text-slate-500 mb-4">Measure the project threshold of your curriculum with strict closed-book evaluation.</p>
+        
+        <!-- Interactive Solve & Build Form (Primary User Action) -->
+        <div class="bg-white rounded-xl shadow-sm border border-indigo-200 p-5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700">
+              <span>💡</span> Interactive Problem Solver & Builder
+            </span>
+            <span class="text-[11px] text-slate-400">Strictly Grounded in CodeHero (1717)</span>
+          </div>
+          <h2 class="text-base font-bold text-slate-900 mb-1">Tell the AI to Solve a Problem or Build Something</h2>
+          <p class="text-xs text-slate-500 mb-3">The student will build your request using ONLY the concepts and syntax taught on your website, explicitly refusing un-taught external libraries.</p>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Test 1: Ceiling Probe -->
-            <div class="border border-indigo-100 bg-indigo-50/50 rounded-xl p-4 flex flex-col justify-between">
-              <div>
-                <span class="inline-block px-2 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] font-bold uppercase rounded mb-2">Curriculum Ceiling</span>
-                <h3 class="text-sm font-bold text-slate-800 mb-1">Probe Highest Project Tier</h3>
-                <p class="text-xs text-slate-600 mb-3 leading-relaxed">
-                  Evaluates the absolute maximum project complexity a student can build without any outside help.
-                </p>
+          <div class="space-y-3">
+            <div>
+              <textarea id="inputProblem" rows="3" class="w-full text-xs px-3 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm" placeholder="e.g. Build an attendance tracker that writes student records to a JSON file, or create a function to calculate total cart price..."></textarea>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
+              <div class="flex items-center gap-2 text-xs w-full sm:w-auto">
+                <span class="text-slate-600 font-medium">Target Language:</span>
+                <select id="selectLanguage" class="px-2.5 py-1.5 border border-slate-300 rounded-lg bg-white">
+                  <option value="auto">Auto-Detect</option>
+                  <option value="python">Python</option>
+                  <option value="javascript">JavaScript</option>
+                  <option value="html_css">HTML & CSS</option>
+                  <option value="sql">SQL</option>
+                  <option value="java">Java</option>
+                  <option value="rust">Rust</option>
+                </select>
               </div>
-              <button onclick="runCeilingProbe()" id="btnCeiling" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold py-2 rounded-lg transition shadow-sm">
-                Run Ceiling Probe 🚀
+              <button onclick="runSolveProblem()" id="btnSolve" class="w-full sm:w-auto px-6 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg transition shadow-sm flex items-center justify-center gap-2">
+                <span>Solve / Build with CodeHero Knowledge</span> 🚀
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Bar: Tests -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+          <h3 class="text-sm font-bold text-slate-800 mb-1">Standard Curriculum Probes</h3>
+          <p class="text-xs text-slate-500 mb-3">Run ceiling audit or test a full project challenge.</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <!-- Test 1: Ceiling Probe -->
+            <div class="border border-slate-200 bg-slate-50 rounded-lg p-3.5 flex flex-col justify-between">
+              <div>
+                <span class="font-bold text-slate-800">Curriculum Ceiling Probe</span>
+                <p class="text-slate-500 mt-1 mb-3">Evaluates the maximum project tier achievable across all 6 realms.</p>
+              </div>
+              <button onclick="runCeilingProbe()" id="btnCeiling" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2 rounded-lg transition">
+                Probe Overall Ceiling 📊
               </button>
             </div>
 
             <!-- Test 2: Project Challenge -->
-            <div class="border border-emerald-100 bg-emerald-50/50 rounded-xl p-4 flex flex-col justify-between">
+            <div class="border border-slate-200 bg-slate-50 rounded-lg p-3.5 flex flex-col justify-between">
               <div>
-                <span class="inline-block px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase rounded mb-2">Target Challenge</span>
-                <h3 class="text-sm font-bold text-slate-800 mb-1">Test Specific Project Idea</h3>
-                <input id="inputProjectName" type="text" placeholder="e.g. Weather App, To-Do List" class="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded mb-2 bg-white" value="Interactive Note-Taking App" />
+                <span class="font-bold text-slate-800">Project Challenge</span>
+                <input id="inputProjectName" type="text" class="w-full px-2.5 py-1.5 border border-slate-300 rounded mt-1.5 mb-2 bg-white" value="Interactive Note-Taking App" />
               </div>
-              <button onclick="runProjectChallenge()" id="btnChallenge" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold py-2 rounded-lg transition shadow-sm">
-                Challenge Student 🎯
+              <button onclick="runProjectChallenge()" id="btnChallenge" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-lg transition">
+                Challenge Project 🎯
               </button>
             </div>
           </div>
         </div>
 
         <!-- Evaluation Results Display -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 min-h-[400px]">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 min-h-[420px]">
           <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
             <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <span>📊</span> Student Outcome & Gap Report
+              <span>📋</span> Student Output & Code Report
             </h3>
-            <span id="reportBadge" class="text-xs px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 font-medium">No test run yet</span>
+            <span id="reportBadge" class="text-xs px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 font-medium">Ready</span>
           </div>
 
           <div id="loader" class="hidden py-16 text-center">
             <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-indigo-600 border-t-transparent"></div>
-            <p class="text-sm font-medium text-slate-600 mt-3">Simulating student thinking with closed-book constraints...</p>
+            <p class="text-sm font-medium text-slate-600 mt-3">Student searching CodeHero modules (closed-book evaluation)...</p>
           </div>
 
           <div id="reportContent" class="markdown-body text-slate-700 text-sm">
             <div class="py-12 text-center text-slate-400">
               <p class="text-3xl mb-2">💡</p>
-              <p class="font-medium text-slate-500">Click "Run Ceiling Probe" or "Challenge Student" above to test your curriculum.</p>
-              <p class="text-xs mt-1 text-slate-400">The student will assess what projects it can build using only your active sources.</p>
+              <p class="font-medium text-slate-500">Ask the student to solve a problem or run a ceiling probe above.</p>
+              <p class="text-xs mt-1 text-slate-400">The AI will use ONLY the 141 modules from your CodeHero website.</p>
             </div>
           </div>
         </div>
@@ -180,16 +206,10 @@
   </main>
 
   <script>
-    function switchSourceTab(mode) {
-      const isUrl = mode === 'url';
-      document.getElementById('urlForm').classList.toggle('hidden', !isUrl);
-      document.getElementById('textForm').classList.toggle('hidden', isUrl);
-      document.getElementById('tabUrlBtn').className = isUrl 
-        ? 'py-1.5 px-3 border-b-2 border-indigo-600 text-indigo-600 font-medium' 
-        : 'py-1.5 px-3 text-slate-500 hover:text-slate-700 font-medium';
-      document.getElementById('tabTextBtn').className = !isUrl 
-        ? 'py-1.5 px-3 border-b-2 border-indigo-600 text-indigo-600 font-medium' 
-        : 'py-1.5 px-3 text-slate-500 hover:text-slate-700 font-medium';
+    function updateProviderFields() {
+      const p = document.getElementById('selectProvider').value;
+      document.getElementById('ollamaConfig').classList.toggle('hidden', p !== 'ollama');
+      document.getElementById('geminiConfig').classList.toggle('hidden', p !== 'gemini');
     }
 
     async function loadSources() {
@@ -200,88 +220,48 @@
         document.getElementById('sourceCount').innerText = data.sources.length;
 
         if (data.sources.length === 0) {
-          listEl.innerHTML = '<p class="text-slate-400 italic">No curriculum sources added yet.</p>';
+          listEl.innerHTML = '<p class="text-slate-400 italic">No sources found.</p>';
           return;
         }
 
-        listEl.innerHTML = data.sources.map(s => `
-          <div class="border border-slate-200 rounded-lg p-2.5 bg-slate-50 hover:bg-slate-100 transition flex items-center justify-between">
+        listEl.innerHTML = data.sources.slice(0, 30).map(s => `
+          <div class="border border-slate-200 rounded p-2 bg-slate-50 flex items-center justify-between text-xs">
             <div class="truncate mr-2">
               <p class="font-semibold text-slate-800 truncate">${s.title}</p>
-              <p class="text-[10px] text-slate-500">${s.filename} (${s.size_bytes} bytes)</p>
+              <p class="text-[10px] text-slate-400">${s.filename}</p>
             </div>
-            <button onclick="deleteSource('${s.filename}')" class="text-rose-500 hover:text-rose-700 text-xs px-1.5 py-1">✕</button>
           </div>
-        `).join('');
+        `).join('') + (data.sources.length > 30 ? `<p class="text-[10px] text-slate-400 text-center py-1">+ ${data.sources.length - 30} more modules active</p>` : '');
       } catch (err) {
         console.error('Error loading sources:', err);
       }
     }
 
-    async function ingestUrl() {
-      const url = document.getElementById('inputUrl').value.trim();
-      if (!url) return alert('Please enter a valid URL');
-      const btn = document.getElementById('btnIngestUrl');
-      btn.innerText = 'Fetching...';
-      btn.disabled = true;
+    async function runSolveProblem() {
+      const problem = document.getElementById('inputProblem').value.trim();
+      if (!problem) return alert('Please enter a problem or feature description');
+      const lang = document.getElementById('selectLanguage').value;
 
+      showLoading(true);
+      document.getElementById('reportBadge').innerText = 'Solving with CodeHero...';
       try {
-        const res = await fetch('/api/sources/url', {
+        const res = await fetch('/api/evaluate/solve', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url })
+          body: JSON.stringify({ problem_statement: problem, target_language: lang })
         });
         const data = await res.json();
+        showLoading(false);
         if (data.success) {
-          alert('Web page ingested successfully!');
-          document.getElementById('inputUrl').value = '';
-          loadSources();
+          document.getElementById('reportContent').innerHTML = marked.parse(data.report);
+          document.getElementById('reportBadge').innerText = 'Solved Grounded';
         } else {
-          alert('Error: ' + data.error);
+          document.getElementById('reportContent').innerHTML = `<p class="text-rose-500 font-medium">${data.error}</p>`;
         }
       } catch (err) {
-        alert('Network error while ingesting URL');
-      } finally {
-        btn.innerText = 'Fetch & Ingest Page';
-        btn.disabled = false;
+        showLoading(false);
+        document.getElementById('reportContent').innerHTML = '<p class="text-rose-500">Request failed.</p>';
       }
-    }
-
-    async function ingestText() {
-      const title = document.getElementById('inputTitle').value.trim();
-      const content = document.getElementById('inputText').value.trim();
-      if (!title || !content) return alert('Please enter both title and content');
-      const btn = document.getElementById('btnIngestText');
-      btn.innerText = 'Saving...';
-      btn.disabled = true;
-
-      try {
-        const res = await fetch('/api/sources/text', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ title, content })
-        });
-        const data = await res.json();
-        if (data.success) {
-          alert('Lesson saved!');
-          document.getElementById('inputTitle').value = '';
-          document.getElementById('inputText').value = '';
-          loadSources();
-        } else {
-          alert('Error: ' + data.error);
-        }
-      } catch (err) {
-        alert('Network error while saving lesson');
-      } finally {
-        btn.innerText = 'Save Lesson Content';
-        btn.disabled = false;
-      }
-    }
-
-    async function deleteSource(filename) {
-      if (!confirm(`Delete ${filename}?`)) return;
-      await fetch(`/api/sources/${encodeURIComponent(filename)}`, { method: 'DELETE' });
-      loadSources();
     }
 
     async function runCeilingProbe() {
@@ -318,7 +298,7 @@
         showLoading(false);
         if (data.success) {
           document.getElementById('reportContent').innerHTML = marked.parse(data.report);
-          document.getElementById('reportBadge').innerText = `Challenge Complete: ${projectName}`;
+          document.getElementById('reportBadge').innerText = `Challenge Complete`;
         } else {
           document.getElementById('reportContent').innerHTML = `<p class="text-rose-500 font-medium">${data.error}</p>`;
         }
@@ -328,20 +308,21 @@
       }
     }
 
-    async function saveApiKey() {
+    async function saveSettings() {
+      const provider = document.getElementById('selectProvider').value;
       const apiKey = document.getElementById('inputApiKey').value.trim();
+      const endpoint = document.getElementById('inputEndpoint').value.trim();
+      const model = document.getElementById('inputOllamaModel').value.trim();
+
       const res = await fetch('/api/settings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ api_key: apiKey })
+        body: JSON.stringify({ provider, api_key: apiKey, endpoint, model })
       });
       const data = await res.json();
       if (data.success) {
-        alert('Settings updated!');
-        document.getElementById('statusIndicator').innerText = apiKey ? '● Live Model Connected' : '● Ready (Mock / Offline Mode)';
-        document.getElementById('statusIndicator').className = apiKey 
-          ? 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800'
-          : 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800';
+        alert('Settings updated successfully!');
+        document.getElementById('statusIndicator').innerText = `● ${data.provider.toUpperCase()} Mode Active`;
       }
     }
 
